@@ -1,0 +1,12 @@
+pymupdf
+pdfplumber
+python-pptx
+pillow
+pytesseract
+faiss-cpu
+sentence-transformers
+google-genai
+tqdm
+numpy
+flask
+flask-cors

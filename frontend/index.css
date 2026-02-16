@@ -1,0 +1,202 @@
+:root {
+    --primary-bg: #1a1c1e;
+    /* Matte Slate */
+    --secondary-bg: #212529;
+    --accent-bg: #2d3135;
+    --text-color: #dad7cd;
+    /* Parchment White */
+    --accent-color: #a3b18a;
+    /* Sage Green */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--primary-bg);
+    background-image: radial-gradient(circle at 50% 50%, #2a2d30 0%, #1a1c1e 100%);
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
+    border-color: rgba(163, 177, 138, 0.3);
+    /* Soft Sage glow */
+}
+
+.navbar {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px 40px 20px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    background: linear-gradient(to right, #fff, var(--accent-color));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+}
+
+.card h2 {
+    margin: 20px 0;
+}
+
+.button {
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    background: var(--accent-color);
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.back-button {
+    margin-bottom: 20px;
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 8px 16px;
+}
+
+/* Specific component styles */
+.flow-step {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+}
+
+.form-group-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.form-group-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: white;
+    outline: none;
+}
+
+.form-group select option {
+    background-color: var(--secondary-bg);
+    color: white;
+}
+
+.chat-container {
+    height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    padding: 12px 18px;
+    border-radius: 15px;
+    max-width: 80%;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: var(--accent-color);
+    color: black;
+}
+
+.message.model {
+    align-self: flex-start;
+    background: var(--glass-bg);
+}

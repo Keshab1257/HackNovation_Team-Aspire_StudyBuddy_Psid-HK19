@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIET Study Buddy | Academic Assistant</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="navbar">
+        <img src="logo.png" alt="GIET Logo" class="logo">
+    </header>
+    <div class="container">
+        <!-- Landing Section -->
+        <section id="landing" class="section">
+            <header class="hero">
+                <h1>GIET Study Buddy</h1>
+                <p>Your AI-powered academic companion for GIET.</p>
+            </header>
+
+            <div class="grid">
+                <div class="glass-card card" id="go-learn">
+                    <div class="icon">🎓</div>
+                    <h2>Learn</h2>
+                    <p>Access notes, pyqs, and get answers from our AI model.</p>
+                    <button class="button">Explore</button>
+                </div>
+                <div class="glass-card card" id="go-contribute">
+                    <div class="icon">✍️</div>
+                    <h2>Contribute</h2>
+                    <p>Help build the knowledge base for your peers.</p>
+                    <button class="button">Upload</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learn Sections -->
+        <section id="learn-home" class="section hidden">
+            <button class="button back-button" id="back-to-landing">← Back</button>
+            <div class="hero">
+                <h2>Knowledge Terminal</h2>
+                <p>How can I assist you today?</p>
+            </div>
+            <div class="grid">
+                <div class="glass-card card" id="go-ask">
+                    <h2>Ask a Question</h2>
+                    <p>Get direct answers from syllabus and notes.</p>
+                </div>
+                <div class="glass-card card" id="go-get-questions">
+                    <h2>Get Exam Questions</h2>
+                    <p>Generate university exam questions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ask Question UI -->
+        <section id="ask-section" class="section hidden">
+            <button class="button back-button" id="back-to-learn">← Back</button>
+            <div class="glass-card flow-step">
+                <h2>Ask Buddy</h2>
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label>Semester</label>
+                        <select id="ask-semester">
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="ask-subject">
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chat-container" id="chat-box">
+                    <div class="message model">Hello! Provide your semester and subject to begin.</div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="query-input" placeholder="Enter your question here...">
+                </div>
+                <button class="button" id="send-query">Submit Query</button>
+            </div>
+        </section>
+
+        <!-- Get Questions UI -->
+        <section id="get-questions-section" class="section hidden">
+            <button class="button back-button" id="back-to-learn-from-get">← Back</button>
+            <div class="glass-card flow-step">
+                <h2>Exam Paper Generator</h2>
+                <p>Generate 10 important questions for your exam.</p>
+                <div class="form-group">
+                    <label>Semester</label>
+                    <select id="get-semester">
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="get-subject">
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+                <button class="button" id="generate-btn">Generate Questions</button>
+                <div id="questions-result" class="glass-card hidden"
+                    style="margin-top: 20px; padding: 20px; white-space: pre-wrap; font-size: 0.9rem;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Contribute Section -->
+        <section id="contribute-section" class="section hidden">
+            <button class="button back-button" id="back-to-landing-from-contrib">← Back</button>
+            <div class="glass-card flow-step">
+                <h2>Contribute to Knowledge Base</h2>
+                <p>Select your semester and subject to start contributing.</p>
+
+                <div class="form-group">
+                    <label>Select Year / Semester</label>
+                    <select id="contrib-year">
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Subject</label>
+                    <select id="contrib-subject">
+                        <option>Mathematics-I</option>
+                        <option>Physics</option>
+                        <option>Programming in C</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Content (PDF / PPTX / Image)</label>
+                    <input type="file" id="file-upload">
+                </div>
+
+                <button class="button" id="submit-contrib">Submit for Verification</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

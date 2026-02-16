@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>GIET Marks Fetcher</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css"/>
+  <style>
+    body { padding: 20px; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>GIET Marks Fetcher</h3>
+    <p>Enter roll no (example: <code>24CSEAIML015</code>)</p>
+
+    <div class="form-inline mb-3">
+      <input id="roll" class="form-control mr-2" placeholder="Roll number" />
+      <select id="mode" class="form-control mr-2">
+        <option value="direct">Direct (same-origin only)</option>
+        <option value="proxy">Proxy (use Render proxy)</option>
+      </select>
+      <button id="go" class="btn btn-primary">Fetch Marks</button>
+    </div>
+
+    <div id="status" class="mb-3"></div>
+
+    <div id="result" class="card" style="display:none;">
+      <div class="card-body">
+        <h5 id="title"></h5>
+        <div id="imageWrap" style="margin-bottom:12px;"></div>
+        <div id="exams"></div>
+        <hr/>
+        <pre id="raw"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <script>
+  // CONFIG: change proxy URL if needed
+  const PROXY_URL = "https://erp-hack.onrender.com/check"; // expects ?roll=...
+  // MODE: "direct" or "proxy" (you can change from UI)
+  // Note: Direct mode works only when this page is served from the GIET site (same origin).
+  
+  function setStatus(text, isError) {
+    $("#status").text(text).css("color", isError ? "red" : "green");
+  }
+
+  function showRaw(obj) {
+    $("#raw").text(JSON.stringify(obj, null, 2));
+    $("#result").show();
+  }
+
+  function renderReport(report) {
+    $("#title").text("Report for: " + report.roll);
+    if (report.student_image) {
+      $("#imageWrap").html('<img src="' + report.student_image + '" alt="student" style="max-width:120px;border-radius:6px;">');
+    } else { $("#imageWrap").empty(); }
+
+    const $exams = $("#exams").empty();
+    if (!report.exams || report.exams.length === 0) {
+      $exams.html("<p>No exams found.</p>");
+      showRaw(report);
+      return;
+    }
+
+    report.exams.forEach(ex => {
+      const $block = $('<div/>').append(
+        $('<h6/>').text(ex.exam_name || ("Exam ID " + ex.exam_id)),
+        $('<p/>').html("Total: " + (ex.total||"") + " &nbsp; Secured: " + (ex.secured||""))
+      );
+
+      if (Array.isArray(ex.subjects) && ex.subjects.length) {
+        const $ul = $("<ul/>");
+        ex.subjects.forEach(s => {
+          // Some field names may vary — show a sensible fallback
+          const subjName = s.vchSubjectShortName || s.vchSubjectName || s.vchSubject || "Subject";
+          const obtained = s.decMarkSecured || s.decMarksObtained || s.decMarks || s.decMark || s.decMarkSecured || s.decMarksObtained || "";
+          const total = s.decTotalMark || s.decTotalMarks || s.decTotal || s.decTotalMark || "";
+          $ul.append($("<li/>").text(`${subjName}: ${obtained} / ${total}`));
+        });
+        $block.append($ul);
+      }
+
+      $exams.append($block).append("<hr/>");
+    });
+
+    showRaw(report);
+  }
+
+  // ===== Direct mode: replicate your AJAX calls (works from GIET domain only) =====
+  function fetchDirect(roll) {
+    setStatus("Calling GIET (direct)...", false);
+
+    const headers = {}; // jQuery will handle content-type & cookies if same-origin
+    $.ajax({
+      url: "https://gietuerp.in/ExamReport/GetAllScheduledExamForStudents",
+      type: "POST",
+      dataType: "json",
+      data: { filterForStudentExamReport: { intSemester: -1, vchRollNo: roll, intExamTypeID: 0 } },
+      success: function(response) {
+        console.log("First API response:", response);
+        if (!response || !response.data || response.data.length === 0) {
+          setStatus("No scheduled exams returned (server returned empty data).", true);
+          showRaw(response || {});
+          return;
+        }
+
+        const studentID = response.data[0].intStudentID;
+        const scheduleIDs = response.data.map(x => x.intExamScheduleMasterID);
+
+        // build report skeleton
+        const report = { roll: roll, student_image: `https://gietuerp.in/Student/GetStudentImage?rollno=${roll}`, exams: [] };
+
+        let pending = scheduleIDs.length;
+        scheduleIDs.forEach(id => {
+          $.ajax({
+            url: "https://gietuerp.in/ExamReport/GetAllSubjectMarksForStudents",
+            type: "POST",
+            dataType: "json",
+            data: { intExamScheduleMasterID: id, intStudentID: studentID },
+            success: function(marksResp) {
+              report.exams.push({
+                exam_id: id,
+                exam_name: (response.data.find(e => e.intExamScheduleMasterID === id) || {}).vchExamName,
+                total: (response.data.find(e => e.intExamScheduleMasterID === id) || {}).decTotalMark,
+                secured: (response.data.find(e => e.intExamScheduleMasterID === id) || {}).decMarkSecured,
+                subjects: marksResp.data || []
+              });
+            },
+            error: function(err) {
+              console.error("Marks error for", id, err);
+            },
+            complete: function() {
+              pending--;
+              if (pending === 0) {
+                setStatus("Done (direct).", false);
+                renderReport(report);
+              }
+            }
+          });
+        });
+      },
+      error: function(xhr) {
+        setStatus("Direct call failed. See console for details.", true);
+        console.error("Direct error:", xhr);
+      }
+    });
+  }
+
+  // ===== Proxy mode: call your own Render endpoint which proxies the GIET calls =====
+  function fetchProxy(roll) {
+    setStatus("Calling proxy...", false);
+    $("#result").hide();
+
+    const url = PROXY_URL + "?roll=" + encodeURIComponent(roll);
+    fetch(url)
+      .then(r => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        // proxy may return JSON or text - try JSON
+        return r.json().catch(() => r.text());
+      })
+      .then(data => {
+        setStatus("Proxy returned.", false);
+        // if raw text message
+        if (typeof data === "string") {
+          $("#result").show();
+          $("#title").text("Proxy Response");
+          $("#exams").html("<pre>" + data + "</pre>");
+          $("#raw").text(data);
+          return;
+        }
+        // expected structure: { roll: "...", exams: [...], student_image: "..." }
+        renderReport(data);
+      })
+      .catch(err => {
+        setStatus("Proxy request failed: " + err.message, true);
+        console.error(err);
+      });
+  }
+
+  // UI binding
+  $("#go").on("click", function(){
+    const roll = $("#roll").val().trim();
+    const mode = $("#mode").val();
+    if (!roll) { setStatus("Enter a roll number.", true); return; }
+    $("#result").hide();
+    if (mode === "direct") fetchDirect(roll);
+    else fetchProxy(roll);
+  });
+
+  // quick-enter
+  $("#roll").on("keypress", function(e){ if (e.key === "Enter") $("#go").click(); });
+  </script>
+</body>
+</html>
