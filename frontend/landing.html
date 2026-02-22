@@ -4,12 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIET Study Buddy | Your Academic Companion</title>
+    <title>StudyBuddy | Your Academic Companion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-bg: #1a1c1e;
@@ -79,13 +77,8 @@
         }
 
         @keyframes floatOrb {
-            0% {
-                transform: translateY(0px) scale(1);
-            }
-
-            100% {
-                transform: translateY(30px) scale(1.05);
-            }
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(30px) scale(1.05); }
         }
 
         /* Navbar */
@@ -101,15 +94,8 @@
         }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .nav-brand {
@@ -183,15 +169,8 @@
         }
 
         @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero-eyebrow {
@@ -455,17 +434,9 @@
         }
 
         @keyframes typeScroll {
-            0% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-30px);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+            100% { transform: translateY(0); }
         }
 
         /* Footer */
@@ -500,9 +471,7 @@
             transition: opacity 0.2s;
         }
 
-        .footer-links a:hover {
-            opacity: 0.8;
-        }
+        .footer-links a:hover { opacity: 0.8; }
 
         /* Pulse dot */
         .pulse-dot {
@@ -515,17 +484,8 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(1.3);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
         }
     </style>
 </head>
@@ -547,10 +507,9 @@
     <section class="hero-section">
         <div class="hero-eyebrow">AI-Powered · StudyBuddy</div>
         <h1 class="hero-title">Study smarter,<br>not harder.</h1>
-        <p class="hero-subtitle">Your personal academic assistant trained on GIET's syllabus. Ask questions, generate
-            exam papers, and contribute to a growing knowledge base.</p>
+        <p class="hero-subtitle">Your personal academic assistant trained on GIET's syllabus. Ask questions, generate exam papers, and contribute to a growing knowledge base.</p>
         <div class="hero-actions">
-            <a href="/frontend/index.html" class="btn-primary">Let's Begin →</a>
+            <a href="auth.html" class="btn-primary">Let's Begin →</a>
         </div>
     </section>
 
@@ -563,8 +522,7 @@
             <div class="glass-card feature-card">
                 <div class="feature-icon">🎓</div>
                 <div class="feature-title">Ask the Buddy</div>
-                <p class="feature-desc">Get instant, accurate answers from your syllabus and uploaded notes. Powered by
-                    AI that understands GIET's curriculum.</p>
+                <p class="feature-desc">Get instant, accurate answers from your syllabus and uploaded notes. Powered by AI that understands GIET's curriculum.</p>
                 <span class="feature-tag">Q &amp; A</span>
             </div>
 
@@ -572,8 +530,7 @@
             <div class="glass-card feature-card">
                 <div class="feature-icon">📝</div>
                 <div class="feature-title">Exam Generator</div>
-                <p class="feature-desc">Generate 10 important university-style exam questions for any subject in your
-                    semester instantly.</p>
+                <p class="feature-desc">Generate 10 important university-style exam questions for any subject in your semester instantly.</p>
                 <span class="feature-tag">AI Generated</span>
             </div>
 
@@ -582,22 +539,21 @@
                 <div class="card-content">
                     <div class="feature-icon">✍️</div>
                     <div class="feature-title">Contribute &amp; Build</div>
-                    <p class="feature-desc">Upload your notes, PYQs, and study material to help your peers. Every
-                        contribution makes the knowledge base smarter for everyone at GIET.</p>
+                    <p class="feature-desc">Upload your notes, PYQs, and study material to help your peers. Every contribution makes the knowledge base smarter for everyone at GIET.</p>
                     <span class="feature-tag">Community Driven</span>
                 </div>
                 <div class="card-visual">
                     <div class="card-visual-inner">
-                        &gt; Uploading notes...
-                        [████████░░] 82%
+&gt; Uploading notes...
+[████████░░] 82%
 
-                        Subject: Data Structures
-                        Semester: 3rd
-                        Type: PYQ
+Subject: Data Structures
+Semester: 3rd
+Type: PYQ
 
-                        ✓ Verified &amp; indexed
-                        ✓ AI processed
-                        &gt; Ready for students</div>
+✓ Verified &amp; indexed
+✓ AI processed
+&gt; Ready for students</div>
                 </div>
             </div>
 
@@ -606,7 +562,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <span class="footer-text">© 2025 GIET Study Buddy — Built for students, by students.</span>
+        <span class="footer-text">© 2026 StudyBuddy — Built for students, by students.</span>
         <div class="footer-links">
             <a href="index.html">App</a>
             <a href="index.html">Learn</a>
@@ -615,5 +571,4 @@
     </footer>
 
 </body>
-
 </html>

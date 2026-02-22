@@ -97,7 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const askSubject = document.getElementById('ask-subject');
 
     queryInput?.addEventListener('keydown', (e) => {
+
         if (e.key === 'Enter') sendQuery.click();
+
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendQuery.click();
+        }
     });
 
     sendQuery?.addEventListener('click', async () => {
