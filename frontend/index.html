@@ -4,13 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIET Study Buddy | Academic Assistant</title>
-    <link rel="stylesheet" href="/frontend/index.css">
+    <title>StudyBuddy | Academic Assistant</title>
+    <link rel="stylesheet" href="index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -21,9 +19,10 @@
     <nav class="navbar">
         <div class="nav-brand">
             <div class="nav-logo-icon">📚</div>
-            <span class="nav-title">GIET Study Buddy</span>
+            <span class="nav-title">StudyBuddy</span>
             <span class="nav-badge"><span class="pulse-dot"></span>&nbsp; Live</span>
         </div>
+        <div id="user-greeting" style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent-color);opacity:0.8;letter-spacing:0.05em;"></div>
     </nav>
 
     <div class="container">
@@ -31,10 +30,9 @@
         <!-- Landing Section -->
         <section id="landing" class="section">
             <div class="hero">
-                <div class="hero-eyebrow">AI-Powered · GIET University</div>
-                <h1>GIET Study Buddy</h1>
-                <p>Your personal academic assistant. Ask questions, generate exam papers, and contribute to a growing
-                    knowledge base.</p>
+                <div class="hero-eyebrow">AI-Powered · StudyBuddy</div>
+                <h1>StudyBuddy</h1>
+                <p>Your personal academic assistant. Ask questions, generate exam papers, and contribute to a growing knowledge base.</p>
             </div>
             <div class="grid">
                 <div class="glass-card card" id="go-learn">
@@ -99,7 +97,7 @@
                     <div class="message model">Hello! Provide your semester and subject to begin.</div>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="query-input" placeholder="Enter your question here...">
+                    <textarea id="query-input" placeholder="Enter your question here..." rows="3"></textarea>
                 </div>
                 <button class="button" id="send-query">Submit Query</button>
             </div>
@@ -164,10 +162,18 @@
     </div>
 
     <footer class="footer">
-        <span class="footer-text">© 2025 GIET Study Buddy — Built for students, by students.</span>
+        <span class="footer-text">© 2026 StudyBuddy — Built for students, by students.</span>
     </footer>
 
     <script src="app.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userData = sessionStorage.getItem('loggedInUser');
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('user-greeting').textContent = `👋 ${user.username}  ·  ${user.role}`;
+            }
+        });
+    </script>
 </body>
-
 </html>
