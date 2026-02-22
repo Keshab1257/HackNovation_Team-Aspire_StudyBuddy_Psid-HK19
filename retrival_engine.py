@@ -21,44 +21,59 @@ class CollegeRetriever:
         print("Loading embedding model...")
         self.model = SentenceTransformer("all-MiniLM-L6-v2")
 
-    def retrieve(self, question, semester=None, subject=None, top_k=5, threshold=0.55):
+        print("Total indexed vectors:", self.index.ntotal)
+        print("Total metadata entries:", len(self.metadata))
 
-        # Embed query
+
+    def retrieve(self, question, semester=None, subject=None, top_k=5, threshold=0.25):
+
+        print("\n========== RETRIEVAL DEBUG ==========")
+        print("Incoming Question:", question)
+        print("Incoming Semester:", semester)
+        print("Incoming Subject:", subject)
+
         query_embedding = self.model.encode(
             [question],
             normalize_embeddings=True
         )
         query_embedding = np.array(query_embedding).astype("float32")
 
-        # Search
         scores, indices = self.index.search(query_embedding, top_k)
 
         results = []
 
         for score, idx in zip(scores[0], indices[0]):
             chunk = self.metadata[idx]
+            score = float(score)
 
-            # Optional filtering
-            if semester and chunk["semester"].strip().lower() != semester.strip().lower():
-                continue
+            print("Raw Score:", score)
 
-            if subject and chunk["subject"].strip().lower() != subject.strip().lower():
-                continue
-
-            # Strict Filter: Ignore "lab" content
-            if 'lab' in chunk["semester"].lower() or 'lab' in chunk["subject"].lower():
-                continue
-
-
+            # 🔒 Similarity threshold
             if score < threshold:
                 continue
 
+            # 🔒 Semester filter
+            if semester and semester.lower() not in chunk.get("semester", "").lower():
+                continue
+
+            # 🔒 Subject filter
+            if subject and subject.lower() not in chunk.get("subject", "").lower():
+                continue
+
+            # 🚫 Ignore labs
+            if 'lab' in chunk.get("semester", "").lower() or \
+            'lab' in chunk.get("subject", "").lower():
+                continue
+
             results.append({
-                "score": float(score),
-                "content": chunk["content"],
-                "semester": chunk["semester"],
-                "subject": chunk["subject"],
-                "type": chunk["academic_type"]
+                "score": score,
+                "content": chunk.get("content", ""),
+                "semester": chunk.get("semester", ""),
+                "subject": chunk.get("subject", ""),
+                "type": chunk.get("academic_type", "")
             })
+
+        print("Retrieved results count:", len(results))
+        print("=====================================\n")
 
         return results

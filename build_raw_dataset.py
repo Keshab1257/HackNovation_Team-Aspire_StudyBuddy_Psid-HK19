@@ -4,9 +4,8 @@ from extractor import extract_text, detect_file_type
 from tqdm import tqdm
 
 
-DATA_ROOT = "D:\\GDG\\GIET Notes"
+DATA_ROOT = "A:\\GDG\\GDG\\GIET Notes"
 OUTPUT_FILE = "raw_documents.json"
-
 
 def scan_dataset():
     documents = []

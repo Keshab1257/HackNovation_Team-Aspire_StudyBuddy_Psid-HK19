@@ -30,7 +30,7 @@ wheels/
 # classified_documents.json
 # faiss_index.index
 # metadata.pkl
-
+venv
 # IDEs
 .vscode/
 .idea/

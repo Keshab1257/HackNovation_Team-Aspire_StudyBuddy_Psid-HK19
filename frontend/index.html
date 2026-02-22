@@ -5,34 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIET Study Buddy | Academic Assistant</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="/frontend/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
 </head>
 
 <body>
-    <header class="navbar">
-        <img src="logo.png" alt="GIET Logo" class="logo">
-    </header>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="nav-logo-icon">📚</div>
+            <span class="nav-title">GIET Study Buddy</span>
+            <span class="nav-badge"><span class="pulse-dot"></span>&nbsp; Live</span>
+        </div>
+    </nav>
+
     <div class="container">
+
         <!-- Landing Section -->
         <section id="landing" class="section">
-            <header class="hero">
+            <div class="hero">
+                <div class="hero-eyebrow">AI-Powered · GIET University</div>
                 <h1>GIET Study Buddy</h1>
-                <p>Your AI-powered academic companion for GIET.</p>
-            </header>
-
+                <p>Your personal academic assistant. Ask questions, generate exam papers, and contribute to a growing
+                    knowledge base.</p>
+            </div>
             <div class="grid">
                 <div class="glass-card card" id="go-learn">
-                    <div class="icon">🎓</div>
+                    <div class="card-icon">🎓</div>
                     <h2>Learn</h2>
-                    <p>Access notes, pyqs, and get answers from our AI model.</p>
+                    <p>Access notes, PYQs, and get answers from our AI model.</p>
                     <button class="button">Explore</button>
                 </div>
                 <div class="glass-card card" id="go-contribute">
-                    <div class="icon">✍️</div>
+                    <div class="card-icon">✍️</div>
                     <h2>Contribute</h2>
                     <p>Help build the knowledge base for your peers.</p>
                     <button class="button">Upload</button>
@@ -40,19 +52,22 @@
             </div>
         </section>
 
-        <!-- Learn Sections -->
+        <!-- Learn Home -->
         <section id="learn-home" class="section hidden">
             <button class="button back-button" id="back-to-landing">← Back</button>
-            <div class="hero">
-                <h2>Knowledge Terminal</h2>
-                <p>How can I assist you today?</p>
+            <div class="section-hero">
+                <div class="section-tag">Knowledge Terminal</div>
+                <h2>How can I assist you today?</h2>
+                <p>Choose what you'd like to do</p>
             </div>
             <div class="grid">
                 <div class="glass-card card" id="go-ask">
+                    <div class="card-icon">💬</div>
                     <h2>Ask a Question</h2>
                     <p>Get direct answers from syllabus and notes.</p>
                 </div>
                 <div class="glass-card card" id="go-get-questions">
+                    <div class="card-icon">📝</div>
                     <h2>Get Exam Questions</h2>
                     <p>Generate university exam questions.</p>
                 </div>
@@ -63,7 +78,9 @@
         <section id="ask-section" class="section hidden">
             <button class="button back-button" id="back-to-learn">← Back</button>
             <div class="glass-card flow-step">
+                <div class="section-tag">Q &amp; A</div>
                 <h2>Ask Buddy</h2>
+                <p>Select your semester and subject, then type your question below.</p>
                 <div class="form-group-row">
                     <div class="form-group">
                         <label>Semester</label>
@@ -92,6 +109,7 @@
         <section id="get-questions-section" class="section hidden">
             <button class="button back-button" id="back-to-learn-from-get">← Back</button>
             <div class="glass-card flow-step">
+                <div class="section-tag">AI Generated</div>
                 <h2>Exam Paper Generator</h2>
                 <p>Generate 10 important questions for your exam.</p>
                 <div class="form-group">
@@ -107,9 +125,7 @@
                     </select>
                 </div>
                 <button class="button" id="generate-btn">Generate Questions</button>
-                <div id="questions-result" class="glass-card hidden"
-                    style="margin-top: 20px; padding: 20px; white-space: pre-wrap; font-size: 0.9rem;">
-                </div>
+                <div id="questions-result" class="glass-card hidden"></div>
             </div>
         </section>
 
@@ -117,9 +133,9 @@
         <section id="contribute-section" class="section hidden">
             <button class="button back-button" id="back-to-landing-from-contrib">← Back</button>
             <div class="glass-card flow-step">
+                <div class="section-tag">Community Driven</div>
                 <h2>Contribute to Knowledge Base</h2>
                 <p>Select your semester and subject to start contributing.</p>
-
                 <div class="form-group">
                     <label>Select Year / Semester</label>
                     <select id="contrib-year">
@@ -129,7 +145,6 @@
                         <option value="4">4th Year</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Select Subject</label>
                     <select id="contrib-subject">
@@ -138,18 +153,21 @@
                         <option>Programming in C</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Upload Content (PDF / PPTX / Image)</label>
                     <input type="file" id="file-upload">
                 </div>
-
                 <button class="button" id="submit-contrib">Submit for Verification</button>
             </div>
         </section>
+
     </div>
 
-    <script src="app.js"></script>
+    <footer class="footer">
+        <span class="footer-text">© 2025 GIET Study Buddy — Built for students, by students.</span>
+    </footer>
+
+    <script src="app.js" defer></script>
 </body>
 
 </html>
