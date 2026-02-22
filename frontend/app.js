@@ -96,6 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const askSemester = document.getElementById('ask-semester');
     const askSubject = document.getElementById('ask-subject');
 
+    queryInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendQuery.click();
+        }
+    });
+
     sendQuery?.addEventListener('click', async () => {
 
         const text = queryInput.value.trim();
