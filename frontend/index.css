@@ -65,13 +65,8 @@ body::before {
 }
 
 @keyframes floatOrb {
-    0% {
-        transform: translateY(0px) scale(1);
-    }
-
-    100% {
-        transform: translateY(30px) scale(1.05);
-    }
+    0%   { transform: translateY(0px) scale(1); }
+    100% { transform: translateY(30px) scale(1.05); }
 }
 
 /* Navbar */
@@ -87,15 +82,8 @@ body::before {
 }
 
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .nav-brand {
@@ -146,17 +134,8 @@ body::before {
 }
 
 @keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 0.5;
-        transform: scale(1.3);
-    }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(1.3); }
 }
 
 /* Container */
@@ -218,15 +197,8 @@ body::before {
 }
 
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Grid */
@@ -374,7 +346,7 @@ body::before {
     margin-bottom: 6px;
 }
 
-.flow-step>p {
+.flow-step > p {
     font-size: 0.88rem;
     opacity: 0.6;
     margin-bottom: 28px;
