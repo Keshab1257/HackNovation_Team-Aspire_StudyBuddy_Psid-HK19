@@ -2,16 +2,20 @@ import os
 from openai import OpenAI
 from retrival_engine import CollegeRetriever
 from dotenv import load_dotenv
-load_dotenv()  # Load environment variables from .env file
 
-import os
+load_dotenv()
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 
 class CollegeRAG:
 
     def __init__(self):
         self.retriever = CollegeRetriever()
 
+    # ==========================================================
+    # ACADEMIC DOUBT RESOLUTION
+    # ==========================================================
     def generate_answer(self, question, semester, subject, previous_question=None):
 
         if previous_question:
@@ -22,28 +26,29 @@ class CollegeRAG:
             semester,
             subject
         )
-        # if not retrieved_docs:
-        #     return "No relevant content found in database."
 
         context = "\n\n".join([doc["content"] for doc in retrieved_docs])
 
         prompt = f"""
-        You are an academic assistant for GIET students.
+You are a friendly academic tutor for GIET students.
 
-        Answer the question using ONLY the provided context.
-        If the context does not contain the answer, then give the answers based on your general knowledge of the subject, but prioritize the context.
-        Context:
-        {subject} {semester} syllabus important topics:
-          {context}
+Explain in very simple English.
+Use short sentences.
+Use examples.
+Avoid complex words.
 
-        Question:
-        {question}
+Context:
+{subject} {semester}
+{context}
 
-        Answer clearly and concisely.
-        """
+Question:
+{question}
+
+Answer clearly.
+"""
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",  # cheap + fast
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a helpful academic assistant."},
                 {"role": "user", "content": prompt}
@@ -53,9 +58,11 @@ class CollegeRAG:
 
         return response.choices[0].message.content
 
+    # ==========================================================
+    # SEMESTER QUESTION PAPER GENERATOR
+    # ==========================================================
     def generate_questions(self, semester, subject):
 
-        # 🔹 Anchor query to subject strongly
         query = f"{subject} {semester} syllabus important topics"
 
         retrieved_docs = self.retriever.retrieve(
@@ -72,27 +79,23 @@ class CollegeRAG:
         context = "\n\n".join([doc["content"] for doc in retrieved_docs])
 
         prompt = f"""
-    You are a university exam paper setter.
+You are a University Semester Examination Paper Setter.
 
-    Generate a structured semester exam question paper STRICTLY based on the given syllabus content.
+Generate a structured End-Semester Question Paper STRICTLY based on the syllabus.
 
-    Instructions:
-    - Do NOT introduce topics not present in context.
-    - Cover different units if possible.
-    - Avoid repetition.
-    - Maintain proper academic tone.
+Structure:
+SECTION A – 5 Questions (2 Marks each)
+SECTION B – 5 Questions (5 Marks each)
+SECTION C – 2 Questions (10 Marks each)
 
-    Structure the paper like this:
+Do NOT provide answers.
 
-    Section A (2 Marks each) – 5 Questions  
-    Section B (5 Marks each) – 5 Questions  
-    Section C (10 Marks each) – 2 Questions  
+Syllabus:
+{subject}
+{semester}
+{context}
+"""
 
-    Syllabus Content:
-    {subject} {semester} syllabus important topics:
-    {context}
-    """
-#replaced context with subject
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -100,6 +103,77 @@ class CollegeRAG:
                 {"role": "user", "content": prompt}
             ],
             temperature=0.3
+        )
+
+        return response.choices[0].message.content
+
+    # ==========================================================
+    # PRE-PLACEMENT TRAINING MODULE
+    # ==========================================================
+    def preplacement_training(self, training_type, user_query):
+
+        training_type = training_type.lower().strip()
+
+        if training_type == "communication":
+            trainer_role = """
+    You are a professional corporate communication trainer.
+
+    Your goal:
+    - Improve clarity of speech
+    - Improve confidence
+    - Improve interview communication
+
+    You must:
+    - Correct mistakes if any
+    - Suggest better sentence framing
+    - Give short practice tasks
+    - Keep tone motivating but professional
+    """
+        elif training_type == "aptitude":
+            trainer_role = """
+    You are an aptitude trainer preparing students for placement tests.
+
+    You must:
+    - Solve step-by-step
+    - Explain reasoning clearly
+    - Show logical breakdown
+    - After solving, give one similar practice question
+    - Encourage analytical thinking
+    """
+        elif training_type == "technical":
+            trainer_role = """
+    You are a technical interviewer conducting placement interviews.
+
+    You must:
+    - Ask probing questions
+    - Evaluate depth of understanding
+    - Provide constructive feedback
+    - Suggest improvement areas
+    - Keep the environment realistic like a real interview
+    """
+        else:
+            return "Invalid training type. Please choose: communication, aptitude, or technical."
+
+        prompt = f"""
+    {trainer_role}
+
+    Now respond to the student's query realistically.
+
+    Student Query:
+    {user_query}
+
+    Respond naturally like a real trainer.
+    Do not use markdown formatting.
+    Keep it structured and practical.
+    """
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a professional placement trainer."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.4
         )
 
         return response.choices[0].message.content

@@ -3,19 +3,19 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from rag_engine import CollegeRAG
 from dotenv import load_dotenv
+
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-# Initialize RAG Engine
-print("Initializing RAG Engine... this may take a moment.")
+print("Initializing RAG Engine...")
 rag = CollegeRAG()
+
 
 # ===============================
 # Serve Frontend
 # ===============================
-
 @app.route('/')
 def serve_frontend():
     return send_from_directory('frontend', 'landing.html')
@@ -26,9 +26,8 @@ def serve_static_files(filename):
 
 
 # ===============================
-# API ROUTES
+# Academic Metadata
 # ===============================
-
 @app.route('/api/metadata', methods=['GET'])
 def get_metadata():
     try:
@@ -59,6 +58,9 @@ def get_metadata():
         return jsonify({"error": str(e)}), 500
 
 
+# ===============================
+# Academic Doubt Resolver
+# ===============================
 @app.route('/api/ask', methods=['POST'])
 def ask_question():
     data = request.json
@@ -75,10 +77,12 @@ def ask_question():
         return jsonify({"answer": answer})
 
     except Exception as e:
-        print("API ERROR:", e)
         return jsonify({"error": str(e)}), 500
 
 
+# ===============================
+# Question Generator
+# ===============================
 @app.route('/api/generate-questions', methods=['POST'])
 def generate_questions():
     data = request.json
@@ -94,7 +98,28 @@ def generate_questions():
         return jsonify({"questions": questions})
 
     except Exception as e:
-        print("API ERROR:", e)
+        return jsonify({"error": str(e)}), 500
+
+
+# ===============================
+# Pre-Placement Training API
+# ===============================
+@app.route('/api/preplacement-training', methods=['POST'])
+def preplacement_training():
+
+    data = request.json
+
+    training_type = data.get('training_type')
+    user_query = data.get('user_query')
+
+    if not all([training_type, user_query]):
+        return jsonify({"error": "Missing required fields"}), 400
+
+    try:
+        response = rag.preplacement_training(training_type, user_query)
+        return jsonify({"response": response})
+
+    except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
