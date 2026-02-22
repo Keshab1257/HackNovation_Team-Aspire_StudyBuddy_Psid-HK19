@@ -3,6 +3,31 @@
 > An AI-powered academic assistant built for students of GIET University — ask questions, generate exam papers, and contribute to a shared knowledge base.
 
 ---
+## ❗ Problem Statement
+
+Students often use generic AI tools to clear academic doubts. However, these tools are not syllabus-aware and do not understand GIET University’s semester-wise curriculum. They may provide overly complex explanations, off-syllabus content, or even incorrect and hallucinated answers.
+
+Because of this, students experience confusion instead of clarity. There is currently no dedicated AI system that is aligned with GIET’s subjects, semesters, and academic structure.
+
+A controlled, context-aware, and syllabus-grounded academic assistant is needed to ensure accurate and reliable learning support.
+
+---
+
+## ✅ Our Solution
+
+GIET Study Buddy is a syllabus-aware AI academic assistant designed specifically for GIET University students.
+
+It solves the problem by:
+
+- Using Retrieval-Augmented Generation (RAG) to generate answers grounded in actual GIET syllabus and notes
+- Organizing content by semester and subject for structured learning
+- Allowing students to generate university-style exam questions
+- Enabling community contributions with admin moderation and verification
+- Ensuring answers are accurate, context-aware, and classroom-aligned
+
+Instead of being a generic chatbot, GIET Study Buddy acts as a trusted academic companion built specifically for the GIET ecosystem.
+
+---
 
 ## ✨ Features
 
