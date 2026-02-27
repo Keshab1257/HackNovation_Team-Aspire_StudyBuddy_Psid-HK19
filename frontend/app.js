@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const askSection = document.getElementById('ask-section');
     const getQuestionsSection = document.getElementById('get-questions-section');
     const contributeSection = document.getElementById('contribute-section');
+    const placementSection = document.getElementById('placement-section');
 
     const btnGoLearn = document.getElementById('go-learn');
     const btnGoContribute = document.getElementById('go-contribute');
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnGoGetQuestions = document.getElementById('go-get-questions');
     const btnBackToLearn = document.getElementById('back-to-learn');
     const btnBackToLearnFromGet = document.getElementById('back-to-learn-from-get');
+    const btnGoPlacement = document.getElementById('go-placement');
+    const btnBackToLearnFromPlacement = document.getElementById('back-to-learn-from-placement');
 
     const showSection = (section) => {
         document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
@@ -31,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGoGetQuestions?.addEventListener('click', () => showSection(getQuestionsSection));
     btnBackToLearn?.addEventListener('click', () => showSection(learnHome));
     btnBackToLearnFromGet?.addEventListener('click', () => showSection(learnHome));
+    btnGoPlacement?.addEventListener('click', () => showSection(placementSection));
+    btnBackToLearnFromPlacement?.addEventListener('click', () => showSection(learnHome));
 
     // ==========================
     // API Base URL (FIXED)
@@ -97,9 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const askSubject = document.getElementById('ask-subject');
 
     queryInput?.addEventListener('keydown', (e) => {
-
-        if (e.key === 'Enter') sendQuery.click();
-
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             sendQuery.click();
@@ -190,4 +192,105 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBox.scrollTop = chatBox.scrollHeight;
         return div;
     };
+
+    // ==========================
+    // Placement & Training Logic (FIXED)
+    // ==========================
+    let currentSubject = '';
+
+    window.startPlacementChat = (subject) => {
+        console.log("Starting placement chat for:", subject);
+
+        currentSubject = subject;
+
+        document.getElementById('placement-home').classList.add('hidden');
+        document.getElementById('placement-chat').classList.remove('hidden');
+        document.getElementById('placement-chat-tag').textContent = subject;
+        document.getElementById('placement-chat-title').textContent = `${subject} Trainer`;
+
+        const box = document.getElementById('placement-chat-box');
+        box.innerHTML = '';
+
+        appendPlacementMessage(
+            'model',
+            `👋 Welcome to the ${subject} trainer! Type "start" to receive your first question, or ask me anything about ${subject}.`
+        );
+    };
+
+    window.showPlacementHome = () => {
+        document.getElementById('placement-home').classList.remove('hidden');
+        document.getElementById('placement-chat').classList.add('hidden');
+    };
+
+    const placementSendBtn = document.getElementById('placement-send-btn');
+    const placementInput = document.getElementById('placement-input');
+
+    placementSendBtn?.addEventListener('click', () => sendPlacementMessage());
+
+    placementInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendPlacementMessage();
+        }
+    });
+
+    const sendPlacementMessage = async () => {
+
+        const text = placementInput.value.trim();
+
+        if (!text) return;
+
+        if (!currentSubject) {
+            alert("Training type not selected properly.");
+            return;
+        }
+
+        appendPlacementMessage('user', text);
+        placementInput.value = '';
+
+        const loading = appendPlacementMessage('model', 'Thinking...');
+
+        try {
+            console.log("Sending request with:", {
+                training_type: currentSubject.toLowerCase(),
+                user_query: text
+            });
+
+            const response = await fetch(`${API_URL}/preplacement-training`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    training_type: currentSubject.toLowerCase(),
+                    user_query: text
+                })
+            });
+
+            console.log("Response status:", response.status);
+
+            const data = await response.json();
+            console.log("Response data:", data);
+
+            if (!response.ok) {
+                loading.innerText = data.error || "Server returned error.";
+                return;
+            }
+
+            loading.innerText = data.answer || "No response received.";
+
+        } catch (err) {
+            console.error("Placement Fetch Error:", err);
+            loading.innerText = 'Error: Could not connect to the backend server.';
+        }
+    };
+
+    const appendPlacementMessage = (sender, text) => {
+        const box = document.getElementById('placement-chat-box');
+        const div = document.createElement('div');
+        div.classList.add('message', sender);
+        div.innerText = text;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+        return div;
+    };
+
 });

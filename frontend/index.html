@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Study Buddy | Academic Assistant</title>
-=======
     <title>StudyBuddy | Academic Assistant</title>
->>>>>>> 57eff6894d5d5dbe5d796ceea454b0c4684188ca
     <link rel="stylesheet" href="/frontend/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -26,7 +24,9 @@
             <span class="nav-title">StudyBuddy</span>
             <span class="nav-badge"><span class="pulse-dot"></span>&nbsp; Live</span>
         </div>
-        <div id="user-greeting" style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent-color);opacity:0.8;letter-spacing:0.05em;"></div>
+        <div id="user-greeting"
+            style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent-color);opacity:0.8;letter-spacing:0.05em;">
+        </div>
     </nav>
 
     <div class="container">
@@ -36,12 +36,8 @@
             <div class="hero">
                 <div class="hero-eyebrow">AI-Powered · StudyBuddy</div>
                 <h1>StudyBuddy</h1>
-<<<<<<< HEAD
                 <p>Your personal academic assistant. Ask questions, generate exam papers, and contribute to a growing
                     knowledge base.</p>
-=======
-                <p>Your personal academic assistant. Ask questions, generate exam papers, and contribute to a growing knowledge base.</p>
->>>>>>> 57eff6894d5d5dbe5d796ceea454b0c4684188ca
             </div>
             <div class="grid">
                 <div class="glass-card card" id="go-learn">
@@ -77,6 +73,11 @@
                     <div class="card-icon">📝</div>
                     <h2>Get Exam Questions</h2>
                     <p>Generate university exam questions.</p>
+                </div>
+                <div class="glass-card card" id="go-placement">
+                    <div class="card-icon">🏆</div>
+                    <h2>Placement & Training</h2>
+                    <p>Prepare for companies with Aptitude, Technical and Communication practice.</p>
                 </div>
             </div>
         </section>
@@ -168,10 +169,63 @@
             </div>
         </section>
 
+        <!-- ========================== -->
+        <!-- Placement & Training       -->
+        <!-- ========================== -->
+        <section id="placement-section" class="section hidden">
+            <button class="button back-button" id="back-to-learn-from-placement">← Back</button>
+
+            <!-- Subject Selection -->
+            <div id="placement-home">
+                <div class="section-hero">
+                    <div class="section-tag">Placement & Training</div>
+                    <h2>What would you like to practice?</h2>
+                    <p>Choose a subject to begin your session with the AI trainer</p>
+                </div>
+                <div class="grid">
+                    <div class="glass-card card" onclick="startPlacementChat('Aptitude')">
+                        <div class="card-icon">🧮</div>
+                        <h2>Aptitude</h2>
+                        <p>Practice quantitative, logical reasoning and verbal ability questions.</p>
+                    </div>
+                    <div class="glass-card card" onclick="startPlacementChat('Technical')">
+                        <div class="card-icon">💻</div>
+                        <h2>Technical</h2>
+                        <p>Brush up on DSA, OS, DBMS, CN and core CS concepts.</p>
+                    </div>
+                    <div class="glass-card card" onclick="startPlacementChat('Communication')">
+                        <div class="card-icon">🤝</div>
+                        <h2>Communication</h2>
+                        <p>Improve your English, grammar, email writing and HR interview skills.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Screen -->
+            <div id="placement-chat" class="hidden">
+                <div class="glass-card flow-step" style="max-width:720px;">
+                    <div class="section-tag" id="placement-chat-tag">Aptitude</div>
+                    <h2 id="placement-chat-title">Aptitude Trainer</h2>
+                    <p id="placement-chat-subtitle" style="margin-bottom:20px;">Ask anything or type <strong
+                            style="color:var(--accent-color);">"start"</strong> to get your first question.</p>
+                    <div class="chat-container" id="placement-chat-box"></div>
+                    <div class="form-group" style="margin-top:16px;">
+                        <textarea id="placement-input" placeholder="Type your answer or ask a question..."
+                            rows="2"></textarea>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                        <button class="button" id="placement-send-btn">Send →</button>
+                        <button class="button back-button" style="margin:0;" onclick="showPlacementHome()">← Change
+                            Subject</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <footer class="footer">
-        <span class="footer-text">© 2026 StudyBuddy — Built for students, by students.</span>
+        <span class="footer-text">© 2025 GIET Study Buddy — Built for students, by students.</span>
     </footer>
 
     <script src="app.js" defer></script>
@@ -185,4 +239,5 @@
         });
     </script>
 </body>
+
 </html>

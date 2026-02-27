@@ -112,14 +112,15 @@ def preplacement_training():
     training_type = data.get('training_type')
     user_query = data.get('user_query')
 
-    if not all([training_type, user_query]):
+    if not training_type or not user_query:
         return jsonify({"error": "Missing required fields"}), 400
 
     try:
-        response = rag.preplacement_training(training_type, user_query)
-        return jsonify({"response": response})
+        result = rag.preplacement_training(training_type, user_query)
+        return jsonify({"answer": result})   
 
     except Exception as e:
+        print("PREPLACEMENT API ERROR:", e)
         return jsonify({"error": str(e)}), 500
 
 
